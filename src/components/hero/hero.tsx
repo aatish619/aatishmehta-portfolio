@@ -6,8 +6,6 @@ import { HeroStats } from './hero-stats';
 import { HeroSocials } from './hero-socials';
 import { HeroVisual } from './hero-visual';
 import { ScrollIndicator } from './scroll-indicator';
-import { TechStrip } from './tech-strip';
-
 export function Hero() {
   return (
     <Section className="relative flex min-h-[100svh] flex-col overflow-hidden pt-24 lg:pt-32">
@@ -28,11 +26,6 @@ export function Hero() {
           </div>
         </div>
       </Container>
-      
-      {/* Tech Strip at the bottom of the hero section */}
-      <div className="mt-16 w-full lg:mt-0">
-        <TechStrip />
-      </div>
     </Section>
   );
 }
