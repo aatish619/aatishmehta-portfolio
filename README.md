@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aatish Mehta — Premium Portfolio
 
-## Getting Started
+This is the source code for the personal portfolio of Aatish Mehta, built with Next.js 15, React 19, and Tailwind CSS.
 
-First, run the development server:
+> **Note to Contributors & Agents:** Before making any changes to this repository, you **must** read the documentation in the `/docs` directory. This project follows strict architectural and design guidelines.
+
+## 📚 Documentation
+
+The `/docs` directory is the single source of truth for this project:
+
+- [Project Rules](./docs/PROJECT_RULES.md) — Core principles and constraints.
+- [Architecture](./docs/ARCHITECTURE.md) — Layered architecture and rendering strategy.
+- [Design System](./docs/DESIGN_SYSTEM.md) — Design tokens, typography, colors, and animations.
+- [Git Workflow](./docs/GIT_WORKFLOW.md) — Branching and PR strategy.
+- [Coding Standards](./docs/CODING_STANDARDS.md) — TypeScript, styling, and conventions.
+- [Project Roadmap](./docs/PROJECT_ROADMAP.md) — Development phases and plans.
+- [Tech Stack](./docs/TECH_STACK.md) — Complete dependency inventory.
+- [Folder Structure](./docs/FOLDER_STRUCTURE.md) — Directory map and purposes.
+- [AI Agent Guide](./docs/AI_AGENT_GUIDE.md) — Specific instructions for AI agents working on this repo.
+- [Decisions (ADRs)](./docs/DECISIONS.md) — Architectural decision records.
+
+## 🚀 Getting Started
+
+First, install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+Then, run the development server:
+
+```bash
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 3.4.x
+- **Components**: shadcn/ui
+- **Animations**: Framer Motion, GSAP, Lenis
+- **3D**: React Three Fiber
+- **Icons**: Lucide React
+- **Fonts**: Geist, Geist Mono, Inter
 
-## Learn More
+## 📄 License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All rights reserved. This is a personal portfolio.
