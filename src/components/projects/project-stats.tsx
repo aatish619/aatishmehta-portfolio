@@ -8,7 +8,7 @@ const STATS = [
   { label: 'Production Apps', value: '12+' },
   { label: 'Client Projects', value: '30+' },
   { label: 'Technologies', value: '15+' },
-  { label: 'Years Building', value: '7+' },
+  { label: 'Years Building', value: '5+' },
 ];
 
 export function ProjectStats({ className }: { className?: string }) {

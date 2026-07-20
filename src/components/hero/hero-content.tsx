@@ -57,8 +57,8 @@ export function HeroContent({ className, ...props }: React.HTMLAttributes<HTMLDi
           className="max-w-xl text-balance leading-relaxed"
         >
           I specialize in building scalable, high-performance applications using
-          Flutter, Native iOS, and Android. My work bridges the gap between elegant
-          design, robust architecture, and AI integrations.
+          Flutter, Native iOS, Android, and Python. My work bridges the gap between elegant
+          design, clean architecture, and AI integrations.
         </Text>
       </FadeIn>
     </div>

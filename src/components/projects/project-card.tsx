@@ -6,6 +6,7 @@ import { Project } from '@/data/projects';
 import { ProjectBadges } from './project-badges';
 import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
+import Link from 'next/link';
 
 interface ProjectCardProps {
   project: Project;
@@ -50,11 +51,13 @@ export function ProjectCard({ project, className, delay = 0 }: ProjectCardProps)
             className="mb-6 mt-auto"
           />
 
-          {/* CTA */}
-          <div className="mt-auto flex items-center text-sm font-medium text-muted transition-colors group-hover:text-primary">
+          <Link 
+            href={`/projects/${project.slug}`}
+            className="mt-auto flex items-center text-sm font-medium text-muted transition-colors group-hover:text-primary"
+          >
             View Case Study
             <ArrowUpRight className="ml-1 h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-          </div>
+          </Link>
         </div>
       </Card>
     </FadeIn>

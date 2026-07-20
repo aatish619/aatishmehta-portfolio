@@ -87,7 +87,7 @@ export function FeaturedProject({ project, className }: FeaturedProjectProps) {
 
           <div className="mt-auto pt-4 border-t border-border/50">
             <Link
-              href={project.caseStudyUrl || '#'}
+              href={`/projects/${project.slug}`}
               className={cn(buttonVariants({ size: 'lg' }), 'group/btn w-full sm:w-auto')}
             >
               View Full Case Study

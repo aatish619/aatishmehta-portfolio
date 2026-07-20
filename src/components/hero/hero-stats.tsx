@@ -5,7 +5,7 @@ import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/cn';
 
 const STATS = [
-  { label: 'Years Experience', value: '7+' },
+  { label: 'Years Experience', value: '5+' },
   { label: 'Production Apps', value: '12+' },
   { label: 'Core Tech Stack', value: '5' },
   { label: 'Projects Delivered', value: '30+' },

@@ -22,7 +22,7 @@ const SKILL_CATEGORIES = [
   },
   {
     name: 'AI Integration',
-    skills: 'LLMs, OpenAI API, Prompt Engineering, RAG',
+    skills: 'LLMs, OpenAI API, Prompt Engineering, AI Integration',
   },
   {
     name: 'Tools & DevOps',
