@@ -98,6 +98,14 @@ const config: Config = {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
+        aurora: {
+          from: {
+            transform: 'rotate(0deg) scale(1)',
+          },
+          to: {
+            transform: 'rotate(360deg) scale(1.2)',
+          },
+        },
       },
       animation: {
         'fade-up': 'fade-up 0.5s ease-out',
