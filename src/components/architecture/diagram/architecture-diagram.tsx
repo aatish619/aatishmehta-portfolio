@@ -1,3 +1,5 @@
+'use client';
+
 import { DiagramType } from '@/data/architecture';
 import { LayerDiagram } from './layer-diagram';
 import { AuthenticationDiagram } from './authentication-diagram';

@@ -44,11 +44,11 @@ export function ProfessionalJourney() {
   }, [searchQuery]);
 
   return (
-    <section id="experience" className="relative py-24 sm:py-32">
+    <section id="experience" className="relative py-12 sm:py-16">
       <div className="container px-4 md:px-6">
         
         {/* Header & Search */}
-        <div className="mb-16 flex flex-col items-center justify-between gap-8 md:mb-24 lg:flex-row lg:items-end">
+        <div className="mb-10 flex flex-col items-center justify-between gap-5 md:mb-12 lg:flex-row lg:items-end">
           <FadeIn className="max-w-2xl text-center lg:text-left">
             <Text size="sm" className="mb-4 font-semibold uppercase tracking-wider text-primary">
               Professional Journey
@@ -76,10 +76,10 @@ export function ProfessionalJourney() {
         </div>
 
         {/* Dynamic Content wrapper */}
-        <div className="flex flex-col gap-24 sm:gap-32">
+        <div className="flex flex-col gap-12 sm:gap-14">
           
           {/* Career Highlights */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
             <FadeIn>
               <Heading size="h3">Career Highlights</Heading>
             </FadeIn>
@@ -87,7 +87,7 @@ export function ProfessionalJourney() {
           </div>
 
           {/* Timeline */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
             <FadeIn>
               <Heading size="h3">Experience</Heading>
             </FadeIn>
@@ -101,7 +101,7 @@ export function ProfessionalJourney() {
           </div>
 
           {/* Technical Expertise */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
             <FadeIn>
               <Heading size="h3">Technical Expertise</Heading>
             </FadeIn>
@@ -115,7 +115,7 @@ export function ProfessionalJourney() {
           </div>
 
           {/* Leadership */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
             <FadeIn>
               <Heading size="h3">Leadership & Collaboration</Heading>
             </FadeIn>
@@ -123,7 +123,7 @@ export function ProfessionalJourney() {
           </div>
 
           {/* Industries */}
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
             <FadeIn>
               <Heading size="h3">Industry Expertise</Heading>
             </FadeIn>
@@ -131,16 +131,16 @@ export function ProfessionalJourney() {
           </div>
 
           {/* Education & Certs */}
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-8">
-            <div className="flex flex-col gap-8">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-8">
+            <div className="flex flex-col gap-6">
               <FadeIn>
                 <Heading size="h3">Education</Heading>
               </FadeIn>
               <Education />
             </div>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6">
               <FadeIn>
-                <Heading size="h3">Certifications</Heading>
+              <Heading size="h3">Current Growth Areas</Heading>
               </FadeIn>
               <Certifications />
             </div>

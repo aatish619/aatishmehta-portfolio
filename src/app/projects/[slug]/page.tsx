@@ -18,18 +18,19 @@ export function generateStaticParams() {
   }));
 }
 
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const project = PROJECTS.find((p) => p.slug === params.slug);
+export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const project = PROJECTS.find((p) => p.slug === slug);
 
   if (!project) {
     notFound();
   }
 
   return (
-    <article className="min-h-screen pb-24">
+    <article className="min-h-screen pb-16">
       <Container>
         {/* Back Navigation */}
-        <div className="pt-24 pb-8 border-b border-border/10">
+        <div className="border-b border-border/10 pb-6 pt-16">
           <Link 
             href="/#work" 
             className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'group rounded-full')}

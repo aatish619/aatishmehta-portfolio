@@ -7,10 +7,11 @@ export interface NavItem {
 
 export const navigationItems: NavItem[] = [
   { label: 'Home', href: '/' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '/#work' },
+  { label: 'Experience', href: '/#experience' },
   { label: 'Architecture', href: '/architecture' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Knowledge', href: '/knowledge' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export const navigationConfig = {

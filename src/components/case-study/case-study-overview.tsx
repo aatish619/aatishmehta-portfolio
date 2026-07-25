@@ -6,18 +6,18 @@ import { Project } from '@/data/projects';
 
 export function CaseStudyOverview({ project }: { project: Project }) {
   return (
-    <div className="grid gap-16 lg:grid-cols-2 py-16 lg:py-24 border-b border-border/30">
-      <ScrollReveal className="flex flex-col gap-6">
+    <div className="grid gap-10 border-b border-border/30 py-12 lg:grid-cols-2 lg:py-16">
+      <ScrollReveal className="flex flex-col gap-5">
         <Heading size="h3">The Problem & Solution</Heading>
         <Text color="muted" className="leading-relaxed">
           {project.businessImpact || project.summary}
         </Text>
         {project.features && (
-          <div className="mt-4">
-            <Text size="sm" className="mb-4 font-semibold uppercase tracking-wider text-muted">
+          <div className="mt-2">
+            <Text size="sm" className="mb-3 font-semibold uppercase tracking-wider text-muted">
               Key Features Delivered
             </Text>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-2.5">
               {project.features.map((feature, i) => (
                 <li key={i} className="flex items-start gap-2">
                   <CheckCircle2 className="h-5 w-5 shrink-0 text-primary mt-0.5" />
@@ -31,9 +31,9 @@ export function CaseStudyOverview({ project }: { project: Project }) {
         )}
       </ScrollReveal>
 
-      <ScrollReveal className="flex flex-col gap-6">
+      <ScrollReveal className="flex flex-col gap-5">
         <Heading size="h3">My Responsibilities</Heading>
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-3">
           {project.responsibilities.map((resp, i) => (
             <li key={i} className="flex items-start gap-3">
               <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />

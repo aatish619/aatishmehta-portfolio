@@ -17,9 +17,9 @@ export function About({ className }: { className?: string }) {
       className={cn('relative overflow-hidden', className)}
     >
       <Container>
-        <div className="flex flex-col gap-24 md:gap-32">
+        <div className="flex flex-col gap-16 md:gap-20">
           {/* Header & Story & Highlights */}
-          <div className="flex flex-col gap-12 md:gap-16">
+          <div className="flex flex-col gap-8 md:gap-10">
             <ScrollReveal>
               <AboutHeader
                 title="Building software that matters."
@@ -37,7 +37,7 @@ export function About({ className }: { className?: string }) {
           </div>
 
           {/* Philosophy & Timeline */}
-          <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
             <ScrollReveal className="order-2 lg:order-1">
               <CareerTimeline />
             </ScrollReveal>

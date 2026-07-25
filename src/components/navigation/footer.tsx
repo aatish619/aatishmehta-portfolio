@@ -13,17 +13,20 @@ export function Footer() {
       <Divider gradient spacing="sm" />
       <Container>
         <div className="py-12 md:py-16">
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
             {/* Brand */}
             <div>
               <Link
                 href="/"
-                className="font-heading text-lg font-bold text-foreground transition-colors hover:text-primary"
+                className="font-heading text-xl font-semibold tracking-tight text-foreground transition-colors hover:text-primary"
               >
                 {siteConfig.name}
               </Link>
-              <p className="mt-3 max-w-xs text-body-sm text-muted">
-                {siteConfig.description}
+              <p className="mt-4 max-w-sm text-body-sm leading-relaxed text-muted">
+                Full-stack mobile developer building Flutter, native, and Python-backed products for international clients.
+              </p>
+              <p className="mt-4 text-caption text-muted">
+                Ahmedabad, India • Remote worldwide
               </p>
             </div>
 
@@ -47,7 +50,7 @@ export function Footer() {
             </div>
 
             {/* Social */}
-            <div>
+            <div className="md:justify-self-end">
               <h3 className="mb-4 text-body-sm font-semibold uppercase tracking-wider text-muted">
                 Connect
               </h3>
@@ -58,7 +61,7 @@ export function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center rounded-lg p-2 text-muted transition-colors hover:bg-card hover:text-foreground"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-white/70 text-muted shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary/8 hover:text-foreground"
                       aria-label={social.ariaLabel}
                     >
                       <social.icon className="h-5 w-5" />

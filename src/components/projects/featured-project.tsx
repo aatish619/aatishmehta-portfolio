@@ -5,6 +5,7 @@ import { Text } from '@/components/ui/text';
 import { buttonVariants } from '@/components/ui/button';
 import { Project } from '@/data/projects';
 import { ProjectBadges } from './project-badges';
+import { ProjectImage } from './project-image';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import Link from 'next/link';
@@ -18,12 +19,8 @@ export function FeaturedProject({ project, className }: FeaturedProjectProps) {
   return (
     <FadeIn className={cn('mb-24', className)}>
       <Card className="group flex flex-col overflow-hidden lg:flex-row transition-all hover:border-primary/50 hover:shadow-glow">
-        {/* Large Image Placeholder */}
-        <div className="relative flex min-h-[300px] w-full items-center justify-center border-b border-border/50 bg-gradient-to-br from-background to-card lg:w-1/2 lg:border-b-0 lg:border-r overflow-hidden">
-          <div className="absolute inset-0 bg-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          <Heading size="display" className="text-muted/20 group-hover:text-primary/10 transition-colors duration-700 group-hover:scale-105">
-            {project.imagePlaceholder}
-          </Heading>
+        <div className="relative min-h-[320px] w-full overflow-hidden border-b border-border/50 lg:w-1/2 lg:border-b-0 lg:border-r">
+          <ProjectImage project={project} priority className="min-h-[320px]" />
         </div>
 
         {/* Content */}

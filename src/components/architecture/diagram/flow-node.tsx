@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 
@@ -13,24 +15,92 @@ interface FlowNodeProps {
   className?: string;
 }
 
-export function FlowNode({ x, y, width, height, label, sublabel, variant = 'default', delay = 0, className }: FlowNodeProps) {
+/**
+ * Wraps text by splitting on spaces and breaking when the
+ * cumulative width would exceed the supplied `maxWidth`.
+ * Returns an array of lines.
+ */
+function wrapText(text: string, maxWidth: number, charSize = 7): string[] {
+  // Approximate average character width at fontSize 12
+  const maxChars = Math.max(6, Math.floor(maxWidth / charSize));
+  const words = text.split(/\s+/);
+  const lines: string[] = [];
+  let current = '';
+
+  for (const word of words) {
+    if (!current) {
+      current = word;
+      continue;
+    }
+    if ((current + ' ' + word).length <= maxChars) {
+      current += ' ' + word;
+    } else {
+      lines.push(current);
+      current = word;
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+export function FlowNode({
+  x,
+  y,
+  width,
+  height,
+  label,
+  sublabel,
+  variant = 'default',
+  delay = 0,
+  className,
+}: FlowNodeProps) {
   const getFills = () => {
     switch (variant) {
-      case 'primary': return { bg: 'var(--primary)', border: 'var(--primary)', text: '#000' };
-      case 'secondary': return { bg: 'hsl(var(--card))', border: 'var(--primary)', text: 'hsl(var(--foreground))' };
-      case 'outline': return { bg: 'transparent', border: 'hsl(var(--border))', text: 'hsl(var(--muted-foreground))' };
-      default: return { bg: 'hsl(var(--card))', border: 'hsl(var(--border))', text: 'hsl(var(--foreground))' };
+      case 'primary':
+        return {
+          bg: 'hsl(var(--primary))',
+          border: 'hsl(var(--primary))',
+          text: '#ffffff',
+        };
+      case 'secondary':
+        return {
+          bg: 'hsl(var(--card))',
+          border: 'hsl(var(--primary))',
+          text: 'hsl(var(--foreground))',
+        };
+      case 'outline':
+        return {
+          bg: 'transparent',
+          border: 'hsl(var(--border))',
+          text: 'hsl(var(--muted-foreground))',
+        };
+      default:
+        return {
+          bg: 'hsl(var(--card))',
+          border: 'hsl(var(--border))',
+          text: 'hsl(var(--foreground))',
+        };
     }
   };
 
   const fills = getFills();
 
+  // Wrap text so it never overflows the rect
+  const labelLines = wrapText(label, width - 12);
+  const sublabelLines = sublabel ? wrapText(sublabel, width - 12) : [];
+  const lineHeight = 14;
+  const subLineHeight = 11;
+  const totalTextHeight =
+    labelLines.length * lineHeight +
+    (sublabelLines.length > 0 ? 4 + sublabelLines.length * subLineHeight : 0);
+  const startY = y + height / 2 - totalTextHeight / 2 + lineHeight - 4;
+
   return (
     <motion.g
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.92 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay, ease: 'easeOut' }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.45, delay, ease: 'easeOut' }}
       className={cn('group', className)}
     >
       <rect
@@ -44,28 +114,32 @@ export function FlowNode({ x, y, width, height, label, sublabel, variant = 'defa
         strokeWidth={2}
         className="transition-colors duration-300"
       />
-      <text
-        x={x + width / 2}
-        y={y + height / 2 + (sublabel ? -6 : 4)}
-        textAnchor="middle"
-        fill={fills.text}
-        className="text-[12px] font-semibold"
-        style={{ pointerEvents: 'none' }}
-      >
-        {label}
-      </text>
-      {sublabel && (
+      {labelLines.map((line, i) => (
         <text
+          key={`l-${i}`}
           x={x + width / 2}
-          y={y + height / 2 + 12}
+          y={startY + i * lineHeight}
+          textAnchor="middle"
+          fill={fills.text}
+          className="text-[12px] font-semibold"
+          style={{ pointerEvents: 'none' }}
+        >
+          {line}
+        </text>
+      ))}
+      {sublabelLines.map((line, i) => (
+        <text
+          key={`s-${i}`}
+          x={x + width / 2}
+          y={startY + labelLines.length * lineHeight + 6 + i * subLineHeight}
           textAnchor="middle"
           fill={fills.text}
           className="text-[10px] opacity-70"
           style={{ pointerEvents: 'none' }}
         >
-          {sublabel}
+          {line}
         </text>
-      )}
+      ))}
     </motion.g>
   );
 }

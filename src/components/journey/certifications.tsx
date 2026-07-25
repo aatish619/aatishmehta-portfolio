@@ -6,15 +6,20 @@ import { Award } from 'lucide-react';
 
 const CERTIFICATIONS = [
   {
-    title: 'Clean Architecture Principles',
-    issuer: 'Udemy / Software Architecture',
-    date: '2023',
+    title: 'Python, FastAPI & MongoDB',
+    issuer: 'Active full-stack backend development focus',
+    date: 'Current',
   },
   {
-    title: 'Advanced Flutter State Management',
-    issuer: 'Google Developer Training',
-    date: '2022',
-  }
+    title: 'Docker & CI/CD',
+    issuer: 'Production delivery and DevOps growth path',
+    date: 'In progress',
+  },
+  {
+    title: 'AI Workflow Automation',
+    issuer: 'n8n, AI API integration, and mobile AI features',
+    date: 'Current',
+  },
 ];
 
 export function Certifications() {

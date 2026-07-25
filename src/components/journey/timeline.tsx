@@ -11,7 +11,7 @@ interface TimelineProps {
 
 export function Timeline({ experiences }: TimelineProps) {
   return (
-    <div className="relative mx-auto max-w-4xl py-12">
+    <div className="relative mx-auto max-w-5xl py-2">
       {/* Vertical Line */}
       <div className="absolute bottom-0 left-4 top-0 w-[2px] bg-border/50 md:left-1/2 md:-ml-[1px]" />
       
@@ -24,7 +24,7 @@ export function Timeline({ experiences }: TimelineProps) {
         transition={{ duration: 1.5, ease: "easeOut" }}
       />
 
-      <div className="flex flex-col gap-12 lg:gap-24">
+      <div className="flex flex-col gap-6 lg:gap-8">
         {experiences.map((experience, index) => {
           const isEven = index % 2 === 0;
 
@@ -41,7 +41,7 @@ export function Timeline({ experiences }: TimelineProps) {
 
               {/* Card Container */}
               <div
-                className={`w-full pl-12 pr-4 md:w-1/2 md:px-8 ${
+                className={`w-full pl-12 pr-4 md:w-[calc(50%-1rem)] md:px-0 ${
                   isEven ? 'md:ml-auto md:pl-8 md:pr-0' : 'md:mr-auto md:pr-8 md:pl-0'
                 }`}
               >

@@ -29,7 +29,26 @@ export function Projects({ className }: { className?: string }) {
   }, [activeCategory]);
 
   const featuredProject = filteredProjects.find((p) => p.featured);
-  const standardProjects = filteredProjects.filter((p) => !p.featured);
+  const standardProjects = filteredProjects
+    .filter((p) => !p.featured)
+    .sort((a, b) => {
+      const priorityOrder = ['smart-fasal', 'magikschool', 'show-united'];
+      const aPriority = priorityOrder.indexOf(a.slug);
+      const bPriority = priorityOrder.indexOf(b.slug);
+
+      if (aPriority !== -1 || bPriority !== -1) {
+        if (aPriority === -1) return 1;
+        if (bPriority === -1) return -1;
+        return aPriority - bPriority;
+      }
+
+      const aHasLinks = Boolean(a.storeLinks.appStore || a.storeLinks.playStore || a.storeLinks.website || a.storeLinks.github);
+      const bHasLinks = Boolean(b.storeLinks.appStore || b.storeLinks.playStore || b.storeLinks.website || b.storeLinks.github);
+
+      if (aHasLinks !== bHasLinks) return Number(bHasLinks) - Number(aHasLinks);
+
+      return a.title.localeCompare(b.title);
+    });
 
   return (
     <Section id="work" spacing="xl" className={cn('relative', className)}>
@@ -47,7 +66,7 @@ export function Projects({ className }: { className?: string }) {
           onSelectCategory={setActiveCategory}
         />
 
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-8">
           {filteredProjects.length === 0 ? (
             <FadeIn>
               <ProjectEmptyState onClearFilters={() => setActiveCategory('All')} />

@@ -12,9 +12,9 @@ export function Education() {
           <GraduationCap className="h-8 w-8" />
         </div>
         <div className="flex flex-col gap-2">
-          <Heading size="h4">Bachelor of Engineering in Information Technology</Heading>
-          <Text size="sm" color="primary" className="font-medium">Gujarat Technological University</Text>
-          <Text size="sm" color="muted">2014 - 2018</Text>
+          <Heading size="h4">Bachelor of Computer Applications</Heading>
+          <Text size="sm" color="primary" className="font-medium">Gujarat, India</Text>
+          <Text size="sm" color="muted">2019 - 2023</Text>
           <Text size="sm" color="muted" className="mt-2 leading-relaxed max-w-2xl">
             Foundational studies in data structures, algorithms, object-oriented programming, and software engineering principles.
           </Text>

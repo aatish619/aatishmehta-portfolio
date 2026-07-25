@@ -34,8 +34,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function ArchitectureDetailPage({ params }: { params: { slug: string } }) {
-  const articleIndex = ARCHITECTURE_ARTICLES.findIndex((a) => a.slug === params.slug);
+export default async function ArchitectureDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const articleIndex = ARCHITECTURE_ARTICLES.findIndex((a) => a.slug === slug);
   const article = ARCHITECTURE_ARTICLES[articleIndex];
 
   if (!article) {

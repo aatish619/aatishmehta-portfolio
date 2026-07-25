@@ -7,7 +7,7 @@ import { GlassCard } from '@/components/ui/glass-card';
 export function HeroVisual({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('relative flex h-[500px] w-full items-center justify-center', className)}
+      className={cn('relative flex h-[420px] w-full items-center justify-center lg:h-[460px]', className)}
       {...props}
     >
       {/* Central Phone Mockup */}
@@ -15,7 +15,7 @@ export function HeroVisual({ className, ...props }: React.HTMLAttributes<HTMLDiv
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative z-10 h-[400px] w-[200px] rounded-[2.5rem] border-[6px] border-border bg-background p-2 shadow-2xl sm:h-[480px] sm:w-[240px]"
+        className="relative z-10 h-[360px] w-[180px] rounded-[2.5rem] border-[6px] border-border bg-background p-2 shadow-2xl sm:h-[420px] sm:w-[210px]"
       >
         <div className="absolute top-0 left-1/2 h-4 w-24 -translate-x-1/2 rounded-b-xl bg-border" />
         <div className="flex h-full w-full flex-col overflow-hidden rounded-[2rem] border border-border/50 bg-gradient-to-b from-card to-background">

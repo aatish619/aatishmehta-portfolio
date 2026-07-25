@@ -2,13 +2,13 @@ export const siteConfig = {
   name: 'Aatish Mehta',
   title: 'Aatish Mehta — Portfolio',
   description:
-    'Personal portfolio of Aatish Mehta — showcasing projects, architecture, and engineering craft.',
+    'Full-stack mobile developer with 5+ years of experience shipping Flutter, Kotlin, SwiftUI, and Python-backed products for global clients.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://aatishmehta.com',
   author: {
     name: 'Aatish Mehta',
-    email: 'aatish@example.com',
+    email: 'aatishm449@gmail.com',
     github: 'https://github.com/aatish619',
-    linkedin: 'https://linkedin.com/in/aatishmehta',
+    linkedin: 'https://www.linkedin.com/in/aatishmehta17/',
   },
   keywords: [
     'Aatish Mehta',
