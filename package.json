@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -29,21 +30,26 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.2.10",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.185.1",
+    "@vitejs/plugin-react": "^6.0.4",
     "autoprefixer": "^10.5.4",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
     "lint-staged": "^17.1.0",
     "postcss": "^8.5.20",
     "prettier": "^3.9.5",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "3.4.17",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
