@@ -8,7 +8,7 @@ import { HeroVisual } from './hero-visual';
 import { ScrollIndicator } from './scroll-indicator';
 export function Hero() {
   return (
-    <Section className="relative flex min-h-[86svh] flex-col overflow-hidden pt-20 lg:pt-24">
+    <Section id="hero" className="relative flex min-h-[86svh] flex-col overflow-hidden pt-20 lg:pt-24">
       <Container className="flex flex-1 flex-col justify-center">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-8">
           <div className="flex flex-col gap-6">

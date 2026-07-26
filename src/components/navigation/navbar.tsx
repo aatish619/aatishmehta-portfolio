@@ -51,6 +51,36 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Intersection Observer to highlight the active section dynamically
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    const sections = ['hero', 'about', 'work', 'experience'];
+    const sectionElements = sections.map(id => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -60% 0px', // Trigger when section occupies the sweet-spot of screen
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.target.id) {
+          const sectionId = entry.target.id;
+          if (sectionId === 'hero') {
+            setHash('');
+          } else {
+            setHash(`#${sectionId}`);
+          }
+        }
+      });
+    }, observerOptions);
+
+    sectionElements.forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [pathname]);
+
   // Close mobile menu on resize to desktop
   useEffect(() => {
     function handleResize() {
