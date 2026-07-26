@@ -207,7 +207,7 @@ export function Contact() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="name" className="text-sm font-medium text-foreground">
-                  Your name <span className="text-error">*</span>
+                  Name <span className="text-error">*</span>
                 </label>
                 <input
                   id="name"
