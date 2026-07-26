@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { GlassCard } from '@/components/ui/glass-card';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
@@ -13,9 +15,12 @@ import {
   MessageSquare,
   CheckCircle2,
   Clock,
+  AlertCircle,
+  Loader2,
 } from 'lucide-react';
-import type { ElementType, FormEvent } from 'react';
+import type { ElementType } from 'react';
 import { siteConfig } from '@/config/site';
+import { contactSchema, ContactInput } from '@/types/contact-schema';
 
 const CONTACT_DETAILS = [
   {
@@ -49,21 +54,50 @@ const CONTACT_DETAILS = [
 ];
 
 export function Contact() {
-  const [formState, setFormState] = useState<'idle' | 'sending' | 'sent'>('idle');
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactInput>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      subject: '',
+      message: '',
+      honeypot: '',
+    },
+  });
+
+  const isSubmitting = formState === 'sending';
+
+  async function onSubmit(data: ContactInput) {
     setFormState('sending');
-    // Compose a mailto fallback so the form works without a backend.
-    const body = `Hi Aatish,%0A%0AMy name is ${encodeURIComponent(
-      form.name
-    )} (${encodeURIComponent(form.email)}).%0A%0A${encodeURIComponent(form.message)}`;
-    const mailto = `mailto:${siteConfig.author.email}?subject=${encodeURIComponent(
-      form.subject || 'Portfolio inquiry'
-    )}&body=${body}`;
-    window.location.href = mailto;
-    setTimeout(() => setFormState('sent'), 600);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setFormState('success');
+        reset();
+      } else {
+        setFormState('error');
+      }
+    } catch (error) {
+      console.error('[Contact Form] Network or unexpected submission error:', error);
+      setFormState('error');
+    }
   }
 
   return (
@@ -131,84 +165,133 @@ export function Contact() {
             </div>
           </div>
 
-          {formState === 'sent' ? (
-            <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-success/15 text-success">
-                <CheckCircle2 className="h-7 w-7" />
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            {/* Honeypot Spam Protection Field - Completely Hidden */}
+            <input
+              type="text"
+              {...register('honeypot')}
+              className="hidden"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+
+            {/* Custom Status Toasts / Banners */}
+            {formState === 'success' && (
+              <div className="flex gap-3 rounded-lg border border-success/30 bg-success/10 p-4 text-sm text-foreground">
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
+                <div>
+                  <Text size="sm" className="font-semibold text-success">
+                    Message sent successfully!
+                  </Text>
+                  <Text size="sm" color="muted" className="mt-1">
+                    Thank you for reaching out. I&apos;ll get back to you as soon as possible.
+                  </Text>
+                </div>
               </div>
-              <Heading size="h4">Message ready to send</Heading>
-              <Text color="muted">
-                Your email client should have opened. If not, email me directly at{' '}
-                <a
-                  href={`mailto:${siteConfig.author.email}`}
-                  className="text-primary hover:underline"
-                >
-                  {siteConfig.author.email}
-                </a>
-                .
-              </Text>
-              <button
-                onClick={() => {
-                  setFormState('idle');
-                  setForm({ name: '', email: '', subject: '', message: '' });
-                }}
-                className="mt-2 text-sm text-muted underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Send another message
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field
+            )}
+
+            {formState === 'error' && (
+              <div className="flex gap-3 rounded-lg border border-error/30 bg-error/10 p-4 text-sm text-foreground">
+                <AlertCircle className="h-5 w-5 shrink-0 text-error" />
+                <div>
+                  <Text size="sm" className="font-semibold text-error">
+                    Unable to send your message.
+                  </Text>
+                  <Text size="sm" color="muted" className="mt-1">
+                    Please try again later.
+                  </Text>
+                </div>
+              </div>
+            )}
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="name" className="text-sm font-medium text-foreground">
+                  Your name <span className="text-error">*</span>
+                </label>
+                <input
                   id="name"
-                  label="Your name"
-                  value={form.name}
-                  onChange={(v) => setForm((f) => ({ ...f, name: v }))}
-                  required
+                  type="text"
+                  disabled={isSubmitting}
                   placeholder="Jane Doe"
+                  {...register('name')}
+                  className="w-full rounded-lg border border-border/50 bg-surface/40 px-4 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-all placeholder:text-muted focus:border-primary focus:bg-surface focus:ring-1 focus:ring-primary disabled:opacity-50"
                 />
-                <Field
+                {errors.name && (
+                  <span className="text-xs text-error mt-0.5">{errors.name.message}</span>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="email" className="text-sm font-medium text-foreground">
+                  Email <span className="text-error">*</span>
+                </label>
+                <input
                   id="email"
                   type="email"
-                  label="Email"
-                  value={form.email}
-                  onChange={(v) => setForm((f) => ({ ...f, email: v }))}
-                  required
+                  disabled={isSubmitting}
                   placeholder="you@example.com"
+                  {...register('email')}
+                  className="w-full rounded-lg border border-border/50 bg-surface/40 px-4 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-all placeholder:text-muted focus:border-primary focus:bg-surface focus:ring-1 focus:ring-primary disabled:opacity-50"
                 />
+                {errors.email && (
+                  <span className="text-xs text-error mt-0.5">{errors.email.message}</span>
+                )}
               </div>
-              <Field
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="subject" className="text-sm font-medium text-foreground">
+                Subject <span className="text-error">*</span>
+              </label>
+              <input
                 id="subject"
-                label="Subject"
-                value={form.subject}
-                onChange={(v) => setForm((f) => ({ ...f, subject: v }))}
+                type="text"
+                disabled={isSubmitting}
                 placeholder="What's this about?"
+                {...register('subject')}
+                className="w-full rounded-lg border border-border/50 bg-surface/40 px-4 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-all placeholder:text-muted focus:border-primary focus:bg-surface focus:ring-1 focus:ring-primary disabled:opacity-50"
               />
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="text-sm font-medium text-foreground">
-                  Message <span className="text-error">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  required
-                  rows={5}
-                  value={form.message}
-                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                  placeholder="Tell me about your project, role, or idea…"
-                  className="w-full resize-y rounded-lg border border-border/50 bg-surface/40 px-4 py-3 text-sm text-foreground outline-none backdrop-blur-sm transition-all placeholder:text-muted focus:border-primary focus:bg-surface focus:ring-1 focus:ring-primary"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={formState === 'sending'}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-md transition-all hover:bg-primary-hover hover:shadow-glow active:scale-[0.98] disabled:opacity-50"
-              >
-                {formState === 'sending' ? 'Opening email…' : 'Send message'}
-                <Send className="h-4 w-4" />
-              </button>
-            </form>
-          )}
+              {errors.subject && (
+                <span className="text-xs text-error mt-0.5">{errors.subject.message}</span>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="message" className="text-sm font-medium text-foreground">
+                Message <span className="text-error">*</span>
+              </label>
+              <textarea
+                id="message"
+                disabled={isSubmitting}
+                rows={5}
+                placeholder="Tell me about your project, role, or idea…"
+                {...register('message')}
+                className="w-full resize-y rounded-lg border border-border/50 bg-surface/40 px-4 py-3 text-sm text-foreground outline-none backdrop-blur-sm transition-all placeholder:text-muted focus:border-primary focus:bg-surface focus:ring-1 focus:ring-primary disabled:opacity-50"
+              />
+              {errors.message && (
+                <span className="text-xs text-error mt-0.5">{errors.message.message}</span>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-md transition-all hover:bg-primary-hover hover:shadow-glow active:scale-[0.98] disabled:opacity-50"
+            >
+              {isSubmitting ? (
+                <>
+                  <span>Sending...</span>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                </>
+              ) : (
+                <>
+                  <span>Send Message</span>
+                  <Send className="h-4 w-4" />
+                </>
+              )}
+            </button>
+          </form>
         </GlassCard>
 
         {/* Sidebar */}
@@ -257,41 +340,6 @@ export function Contact() {
           </div>
         </GlassCard>
       </div>
-    </div>
-  );
-}
-
-function Field({
-  id,
-  label,
-  value,
-  onChange,
-  type = 'text',
-  required = false,
-  placeholder,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  type?: string;
-  required?: boolean;
-  placeholder?: string;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-foreground">
-        {label} {required && <span className="text-error">*</span>}
-      </label>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        required={required}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-lg border border-border/50 bg-surface/40 px-4 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-all placeholder:text-muted focus:border-primary focus:bg-surface focus:ring-1 focus:ring-primary"
-      />
     </div>
   );
 }
