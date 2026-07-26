@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { contactSchema } from '@/types/contact-schema';
-import { sendContactEmail } from '@/lib/email/resend';
+import { generateReferenceId } from '@/lib/referenceId';
+import { sendAdminEmail, sendConfirmationEmail } from '@/lib/email/emailService';
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +24,6 @@ export async function POST(req: NextRequest) {
 
     // 2. Honeypot check (Spam prevention)
     if (data.honeypot) {
-      // Silently discard or return failure to prevent spam bots from knowing they failed
       return NextResponse.json(
         {
           success: false,
@@ -47,13 +47,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 3. Generate Reference ID
+    const referenceId = generateReferenceId();
+
+    // Format a consistent timestamp in IST timezone
+    const timestamp = new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+      timeZone: 'Asia/Kolkata',
+    }).format(new Date());
+
     // Future Database Extension Point:
-    // TODO: await saveContactToDatabase(data);
+    // TODO: await saveContactToDatabase(referenceId, data, timestamp);
 
-    // 3. Send email via Resend Service
-    const emailResult = await sendContactEmail(data);
+    // 4. Send Admin Email
+    const adminResult = await sendAdminEmail(data, referenceId, timestamp);
 
-    if (!emailResult.success) {
+    if (!adminResult.success) {
       return NextResponse.json(
         {
           success: false,
@@ -63,9 +73,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 5. Send Confirmation Auto-Reply Email
+    // Only send confirmation email if the admin email succeeds.
+    // If confirmation email fails, do NOT fail the API request. Log the error.
+    try {
+      const confirmationResult = await sendConfirmationEmail(data, referenceId, timestamp);
+      if (!confirmationResult.success) {
+        console.error('[API Route] Confirmation email failed to deliver:', confirmationResult.error);
+      }
+    } catch (confError) {
+      console.error('[API Route] Unexpected error sending confirmation email:', confError);
+    }
+
     return NextResponse.json(
       {
         success: true,
+        referenceId,
         message: 'Message sent successfully.',
       },
       { status: 200 }

@@ -55,6 +55,7 @@ const CONTACT_DETAILS = [
 
 export function Contact() {
   const [formState, setFormState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [referenceId, setReferenceId] = useState<string | null>(null);
 
   const {
     register,
@@ -76,6 +77,7 @@ export function Contact() {
 
   async function onSubmit(data: ContactInput) {
     setFormState('sending');
+    setReferenceId(null);
 
     try {
       const response = await fetch('/api/contact', {
@@ -89,6 +91,7 @@ export function Contact() {
       const result = await response.json();
 
       if (response.ok && result.success) {
+        setReferenceId(result.referenceId || null);
         setFormState('success');
         reset();
       } else {
@@ -183,8 +186,13 @@ export function Contact() {
                   <Text size="sm" className="font-semibold text-success">
                     Message sent successfully!
                   </Text>
+                  {referenceId && (
+                    <Text size="sm" className="font-mono mt-1 font-semibold text-foreground">
+                      Reference ID: {referenceId}
+                    </Text>
+                  )}
                   <Text size="sm" color="muted" className="mt-1">
-                    Thank you for reaching out. I&apos;ll get back to you as soon as possible.
+                    Thank you for reaching out. A confirmation email has also been sent to your inbox. I&apos;ll get back to you as soon as possible.
                   </Text>
                 </div>
               </div>
