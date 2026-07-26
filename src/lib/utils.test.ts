@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { formatDate, truncate, slugify, clamp, mapRange } from '@/lib/utils';
-import { generatePageMetadata } from '@/lib/seo';
+import { createMetadata } from '@/lib/seo/metadata-builder';
 
 describe('Utility Functions', () => {
   describe('formatDate', () => {
@@ -43,7 +43,7 @@ describe('Utility Functions', () => {
 
 describe('SEO Helpers', () => {
   it('generates page metadata correct layout object', () => {
-    const meta = generatePageMetadata({
+    const meta = createMetadata({
       title: 'About',
       description: 'About description',
       path: '/about',

@@ -12,10 +12,29 @@ import { ArrowLeft } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 
+import { createMetadata } from '@/lib/seo/metadata-builder';
+import { JsonLd } from '@/components/seo/jsonld';
+import { generateBreadcrumbSchema, generateProjectSchema } from '@/lib/seo/structured-data';
+import { siteConfig } from '@/config/site';
+
 export function generateStaticParams() {
   return PROJECTS.map((project) => ({
     slug: project.slug,
   }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const project = PROJECTS.find((p) => p.slug === slug);
+
+  if (!project) return {};
+
+  return createMetadata({
+    title: project.title,
+    description: project.summary,
+    path: `/projects/${project.slug}`,
+    keywords: project.technologies,
+  });
 }
 
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -26,8 +45,23 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
     notFound();
   }
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: siteConfig.url },
+    { name: 'Projects', url: `${siteConfig.url}/#work` },
+    { name: project.title, url: `${siteConfig.url}/projects/${project.slug}` },
+  ]);
+
+  const projectSchema = generateProjectSchema({
+    title: project.title,
+    summary: project.summary,
+    technologies: project.technologies,
+    url: `${siteConfig.url}/projects/${project.slug}`,
+  });
+
   return (
     <article className="min-h-screen pb-16">
+      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={projectSchema} />
       <Container>
         {/* Back Navigation */}
         <div className="border-b border-border/10 pb-6 pt-16">

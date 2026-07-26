@@ -1,24 +1,29 @@
 import type { MetadataRoute } from 'next';
+import { siteConfig } from '@/config/site';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Aatish Mehta — Portfolio',
-    short_name: 'Aatish Mehta',
-    description:
-      'Personal portfolio of Aatish Mehta — showcasing projects, architecture, and engineering craft.',
+    name: siteConfig.name,
+    short_name: 'Aatish Portfolio',
+    description: siteConfig.description,
     start_url: '/',
     display: 'standalone',
-    background_color: '#09090B',
-    theme_color: '#4F46E5',
+    background_color: siteConfig.backgroundColor,
+    theme_color: siteConfig.themeColor,
     icons: [
       {
-        src: '/icons/icon-192.png',
+        src: '/favicon.ico',
+        sizes: 'any',
+        type: 'image/x-icon',
+      },
+      {
+        src: '/icon.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: '/icons/icon-512.png',
-        sizes: '512x512',
+        src: '/apple-touch-icon.png',
+        sizes: '180x180',
         type: 'image/png',
       },
     ],

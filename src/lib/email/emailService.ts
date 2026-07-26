@@ -37,7 +37,7 @@ export async function sendAdminEmail(
     const { data: resData, error: resError } = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
       to: toEmail,
-      subject: `🚀 New Portfolio Inquiry • ${data.subject}`,
+      subject: `New Portfolio Inquiry • ${data.subject}`,
       html,
       text,
       replyTo: data.email,
@@ -75,10 +75,10 @@ export async function sendConfirmationEmail(
 
   try {
     const resend = new Resend(apiKey);
-    
+
     // Extract first name for personalized greeting
     const firstName = data.name.trim().split(' ')[0] || 'there';
-    
+
     const html = generateConfirmationEmail(firstName, data, referenceId, timestamp);
     const text = generateConfirmationEmailText(firstName, data, referenceId, timestamp);
 

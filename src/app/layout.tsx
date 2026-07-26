@@ -1,6 +1,4 @@
-import type { Metadata } from 'next';
 import { geist, geistMono, inter } from '@/lib/fonts';
-import { siteConfig } from '@/config/site';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { LenisProvider } from '@/providers/lenis-provider';
 import { Navbar } from '@/components/navigation/navbar';
@@ -11,50 +9,9 @@ import { GridBackground } from '@/components/background/grid-background';
 import { NoiseTexture } from '@/components/background/noise-texture';
 import './globals.css';
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: siteConfig.keywords,
-  authors: [{ name: siteConfig.author.name }],
-  creator: siteConfig.author.name,
-  metadataBase: new URL(siteConfig.url),
-  openGraph: {
-    title: siteConfig.title,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: siteConfig.title,
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [siteConfig.ogImage],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-};
+import { createMetadata } from '@/lib/seo/metadata-builder';
+
+export const metadata = createMetadata();
 
 export default function RootLayout({
   children,

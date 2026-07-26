@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { ARCHITECTURE_ARTICLES } from '@/data/architecture';
@@ -19,19 +18,29 @@ import { ArchitectureTags } from '@/components/architecture/architecture-tags';
 import { ArchitectureNavigation } from '@/components/architecture/architecture-navigation';
 import { ArchitectureRelated } from '@/components/architecture/architecture-related';
 
+import { createMetadata } from '@/lib/seo/metadata-builder';
+import { JsonLd } from '@/components/seo/jsonld';
+import { generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo/structured-data';
+import { siteConfig } from '@/config/site';
+
 export function generateStaticParams() {
   return ARCHITECTURE_ARTICLES.map((article) => ({
     slug: article.slug,
   }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const article = ARCHITECTURE_ARTICLES.find((a) => a.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = ARCHITECTURE_ARTICLES.find((a) => a.slug === slug);
+
   if (!article) return {};
-  return {
-    title: `${article.title} — Architecture — Aatish Mehta`,
+
+  return createMetadata({
+    title: article.title,
     description: article.summary,
-  };
+    path: `/architecture/${article.slug}`,
+    keywords: article.tags,
+  });
 }
 
 export default async function ArchitectureDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -52,8 +61,24 @@ export default async function ArchitectureDetailPage({ params }: { params: Promi
 
   const sectionEntries = Object.entries(article.sections) as [string, { title: string; content: string[] }][];
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: siteConfig.url },
+    { name: 'Architecture', url: `${siteConfig.url}/architecture` },
+    { name: article.title, url: `${siteConfig.url}/architecture/${article.slug}` },
+  ]);
+
+  const articleSchema = generateArticleSchema({
+    title: article.title,
+    summary: article.summary,
+    url: `${siteConfig.url}/architecture/${article.slug}`,
+    publishedDate: '2026-07-25', // Fallback publish date consistent with repo build
+    readingTime: parseInt(article.readingTime) || 8,
+  });
+
   return (
     <article className="min-h-screen pb-24">
+      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={articleSchema} />
       <Container>
         {/* Back Nav */}
         <div className="pt-24 pb-8">

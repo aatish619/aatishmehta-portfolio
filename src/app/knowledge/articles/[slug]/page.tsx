@@ -13,10 +13,29 @@ import { ReadingProgress } from '@/components/knowledge/reading-progress';
 import { ShareButtons } from '@/components/knowledge/share-buttons';
 import { RelatedArticles } from '@/components/knowledge/related-articles';
 
+import { createMetadata } from '@/lib/seo/metadata-builder';
+import { JsonLd } from '@/components/seo/jsonld';
+import { generateBreadcrumbSchema, generateArticleSchema } from '@/lib/seo/structured-data';
+import { siteConfig } from '@/config/site';
+
 export function generateStaticParams() {
   return ARTICLES.map((article) => ({
     slug: article.slug,
   }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = ARTICLES.find((a) => a.slug === slug);
+
+  if (!article) return {};
+
+  return createMetadata({
+    title: article.title,
+    description: article.summary,
+    path: `/knowledge/articles/${article.slug}`,
+    keywords: article.tags,
+  });
 }
 
 export default async function ArticleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -31,8 +50,24 @@ export default async function ArticleDetailPage({ params }: { params: Promise<{ 
     ? ARTICLES.filter(a => article.relatedArticles?.includes(a.slug))
     : [];
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: siteConfig.url },
+    { name: 'Knowledge', url: `${siteConfig.url}/knowledge` },
+    { name: article.title, url: `${siteConfig.url}/knowledge/articles/${article.slug}` },
+  ]);
+
+  const articleSchema = generateArticleSchema({
+    title: article.title,
+    summary: article.summary,
+    url: `${siteConfig.url}/knowledge/articles/${article.slug}`,
+    publishedDate: article.publishedDate,
+    readingTime: article.readingTime,
+  });
+
   return (
     <article className="min-h-screen pb-24 relative">
+      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={articleSchema} />
       <ReadingProgress />
       
       <Container>
