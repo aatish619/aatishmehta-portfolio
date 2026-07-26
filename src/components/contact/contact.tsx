@@ -221,7 +221,7 @@ export function Contact() {
                   id="name"
                   type="text"
                   disabled={isSubmitting}
-                  placeholder="Jane Doe"
+                  placeholder="Your Name"
                   {...register('name')}
                   className="w-full rounded-lg border border-border/50 bg-surface/40 px-4 py-2.5 text-sm text-foreground outline-none backdrop-blur-sm transition-all placeholder:text-muted focus:border-primary focus:bg-surface focus:ring-1 focus:ring-primary disabled:opacity-50"
                 />

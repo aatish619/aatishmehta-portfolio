@@ -14,9 +14,9 @@ export function AuthenticationDiagram() {
       {/* Server Side */}
       <FlowNode x={500} y={50} width={250} height={300} label="Authentication Server" variant="outline" delay={0.5} />
       <FlowNode x={550} y={100} width={150} height={60} label="OAuth / JWT Provider" variant="default" delay={0.6} />
-      <FlowNode x={550} y={200} width={150} height={60} label="User Database" variant="secondary" delay={0.7} />
+      <FlowNode x={550} y={220} width={150} height={60} label="User Database" variant="secondary" delay={0.7} />
 
-      <FlowArrow startX={625} startY={160} endX={625} endY={200} delay={0.8} />
+      <FlowArrow startX={625} startY={160} endX={625} endY={220} delay={0.8} />
 
       {/* Cross Communication */}
       <FlowArrow startX={250} startY={120} endX={550} endY={120} delay={0.9} />
